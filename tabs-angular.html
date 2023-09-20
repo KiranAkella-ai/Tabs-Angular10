@@ -1,0 +1,63 @@
+<H4> ADA Complaint Simple Tab, use TAB, left , right, shift+tab to navigate </H4>
+<div class="tab">
+    <!-- London Tab Button -->
+<button
+    class="tablinks"
+    (click)="selectCity('London')"
+    [class.active]="selectedCity === 'London'"
+    (keydown)="handleKeyboardEvent($event)"
+    aria-label="Select London"
+    [attr.aria-current]="selectedCity === 'London' ? 'page' : null"
+    role="tab"
+    aria-controls="London"
+    [tabindex]="selectedCity === 'London' ? 0 : -1"
+    >
+        London
+</button>
+
+<!-- Paris Tab Button -->
+<button
+    class="tablinks"
+    (click)="selectCity('Paris')"
+    [class.active]="selectedCity === 'Paris'"
+    (keydown)="handleKeyboardEvent($event)"
+    aria-label="Select Paris"
+    [attr.aria-current]="selectedCity === 'Paris' ? 'page' : null"
+    role="tab"
+    aria-controls="Paris"
+    [tabindex]="selectedCity === 'Paris' ? 0 : -1"
+    >
+        Paris
+</button>
+
+<!-- Tokyo Tab Button -->
+<button
+    class="tablinks"
+    (click)="selectCity('Tokyo')"
+    [class.active]="selectedCity === 'Tokyo'"
+    (keydown)="handleKeyboardEvent($event)"
+    aria-label="Select Tokyo"
+    [attr.aria-current]="selectedCity === 'Tokyo' ? 'page' : null"
+    role="tab"
+    aria-controls="Tokyo"
+    [tabindex]="selectedCity === 'Tokyo' ? 0 : -1"
+    >
+        Tokyo
+    </button>
+
+  </div>
+  
+  <div id="London" class="tabcontent" [hidden]="!tabContentVisible['London']" role="tabpanel">
+    <h3>London</h3>
+    <p>London is the capital of England.</p>
+  </div>
+  
+  <div id="Paris" class="tabcontent" [hidden]="!tabContentVisible['Paris']" role="tabpanel">
+    <h3>Paris</h3>
+    <p>Paris is the capital of France.</p>
+  </div>
+  
+  <div id="Tokyo" class="tabcontent" [hidden]="!tabContentVisible['Tokyo']" role="tabpanel">
+    <h3>Tokyo</h3>
+    <p>Tokyo is the capital of Japan.</p>
+  </div>
