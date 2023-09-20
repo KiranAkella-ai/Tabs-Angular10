@@ -6,35 +6,62 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  //selectedCity: string | null = null;
-  selectedCity: string = 'London'; // Set 'London' as the default selected city
+  // Current selected city
+  selectedCity: string = 'London';
 
+  // Controls the visibility of tab content
+  tabContentVisible: Record<string, boolean> = {
+    London: true,
+    Paris: false,
+    Tokyo: false
+  };
+
+  // Order of tabs
+  tabOrder: string[] = ['London', 'Paris', 'Tokyo'];
+
+  // Index of the currently selected tab
+  currentTabIndex: number = 0;
+
+  // Handle the selection of a city tab
   selectCity(cityName: string): void {
     this.selectedCity = cityName;
+    this.hideAllTabs();
+    this.tabContentVisible[cityName] = true;
   }
-  openCity(evt: any, cityName: string): void {
-    // Declare all variables
-    let i: number;
-    let tabcontent: HTMLCollectionOf<Element>;
-    let tablinks: HTMLCollectionOf<Element>;
 
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent") as HTMLCollectionOf<Element>;
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].setAttribute("style", "display: none");
+  // Hide all tab content
+  private hideAllTabs(): void {
+    for (const city in this.tabContentVisible) {
+      this.tabContentVisible[city] = false;
+    }
+  }
+
+  // Handle keyboard events
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    // Navigate between tabs using ArrowLeft and ArrowRight keys
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.preventDefault();
+      this.navigateTabs(event.key === 'ArrowLeft' ? 'left' : 'right');
+    }
+    // Navigate between tabs using Shift + Tab and Tab keys
+    else if (event.key === 'Tab' && event.shiftKey) {
+      event.preventDefault();
+      this.navigateTabs('left');
+    } else if (event.key === 'Tab') {
+      event.preventDefault();
+      this.navigateTabs('right');
+    }
+  }
+
+  // Navigate between tabs
+  private navigateTabs(direction: 'left' | 'right'): void {
+    if (direction === 'left') {
+      this.currentTabIndex = (this.currentTabIndex - 1 + this.tabOrder.length) % this.tabOrder.length;
+    } else {
+      this.currentTabIndex = (this.currentTabIndex + 1) % this.tabOrder.length;
     }
 
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks") as HTMLCollectionOf<Element>;
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    const selectedCity = document.getElementById(cityName);
-    if (selectedCity) {
-      selectedCity.setAttribute("style", "display: block");
-    }
-    evt.currentTarget.className += " active";
+    // Select the city corresponding to the new tab index
+    this.selectCity(this.tabOrder[this.currentTabIndex]);
   }
 }
