@@ -1,0 +1,29 @@
+<h3>TABS</h3>
+<app-tabs-manual></app-tabs-manual>
+
+<div [attr.role]="'tablist'" class="manual">
+    <ng-container *ngFor="let tab of tabs; let i = index">
+      <button
+        [id]="'tab-' + i"
+        [attr.role]="'tab'"
+        [attr.aria-controls]="'tabpanel-' + i"
+        [attr.aria-selected]="i === 0 ? 'true' : 'false'"
+        [tabIndex]="i === 0 ? 0 : -1"
+        (keydown)="onKeydown($event)"
+        (click)="onClick($event)"
+      >
+        Tab {{ i + 1 }} Label
+    </button>
+    </ng-container>
+  </div>
+  
+  <ng-container *ngFor="let tabpanel of tabpanels; let i = index">
+    <div
+      [id]="'tabpanel-' + i"
+      [attr.role]="'tabpanel'"
+      [attr.aria-labelledby]="'tab-' + i"
+      [hidden]="!tabpanels[i].nativeElement.classList.contains('is-hidden')"
+    >
+      <p>Tab {{ i + 1 }} Content Here</p>
+    </div>
+  </ng-container>  
